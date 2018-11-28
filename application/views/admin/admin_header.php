@@ -14,7 +14,14 @@
 <link href="<?php echo base_url();?>assets/css/style.css" rel="stylesheet" type="text/css">
 <link href="<?php echo base_url();?>assets_admin/css/admin.css" rel="stylesheet" type="text/css">
  
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("#logoutid").click(function(){
+        $("p").toggle();
+    });
+});
+</script>
 
 </head>
 
@@ -37,9 +44,9 @@
 				</div>
 				<div class='col-sm-3'>
 					<div class='avt-sec'>
-						<span>admin</span>
-					
-						
+				<span><a href="<?php echo base_url();?>admin/manage_certificate">Manage certificate</a></span>
+						<span id="logoutid">admin</span>
+						<p style="display:none; font-size:14px;" ><a href="<?php echo base_url();?>admin/logout"><?php echo $this->lang->line('logout'); ?></a></p>
 					</div>
 				</div>
 			</div>

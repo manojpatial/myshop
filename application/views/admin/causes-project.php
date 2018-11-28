@@ -2,6 +2,7 @@
 //echo '<pre>'; print_r($thanks_card); echo '</pre>';
 //echo '<pre>'; print_r($activity_data); echo '</pre>';
 if(!empty($stage_data) && !empty($cause_data)){ ?>
+<link href="<?php echo base_url();?>/assets/css/circle.css" rel="stylesheet" type="text/css">
 <div id="project-page" class='container-fluid' style="background:linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('<?php echo base_url();?>assets/uploads/cause-picture/<?php echo $cause_data->photo; ?>') no-repeat;">
 	<div class='row com50' id="stage-listing">
 		<div id="thanks-card" class='col-lg-4 col-md-3'>
@@ -9,17 +10,18 @@ if(!empty($stage_data) && !empty($cause_data)){ ?>
 			if(!empty($thanks_card))
 			{ ?>
 				<ul id="thanks-card-ul" class="simp-btn">
-			<?php
-				$i =1;
-				foreach($thanks_card as $thanks){ ?>
+					<?php
+					$i =1;
+					foreach($thanks_card as $thanks){ ?>
 						<li class="active"><a id="add_thanks_<?php echo $i; ?>" href="javascript:void(0)" class="add_thanks thanks_card_butn">
-						<?php echo $thanks['name'].' '.$this->lang->line('thanks_card'); ?></a></li>
-				<?php
-				$i++;
-				}
-				?>
-				<li class=""><a id="add_thanks_<?php echo $i; ?>" href="javascript:void(0)" class="add_thanks thanks_card_butn">
-				+<?php echo $this->lang->line('thanks_card'); ?></a></li>
+							<?php echo $thanks['name'].' '.$this->lang->line('thanks_card'); ?></a>
+						</li>
+					<?php
+					$i++;
+					}
+					?>
+					<li class=""><a id="add_thanks_<?php echo $i; ?>" href="javascript:void(0)" class="add_thanks thanks_card_butn">
+					+<?php echo $this->lang->line('thanks_card'); ?></a></li>
 				</ul>
 				<!---popup code --->
 				<div id="thanks-popup-section" class="">
@@ -31,7 +33,7 @@ if(!empty($stage_data) && !empty($cause_data)){ ?>
 							<!--<div class="popupCloseButton">X</div>-->
 							<span><?php echo $this->lang->line('thanks_card'); ?></span>
 							<div class="form-row">
-								<div class="col-sm-12"><textarea class="form-control"  id="message"><?php echo $thanks['messgae'];?></textarea></div>
+								<div class="col-sm-12"><textarea class="form-control"  id="message"><?php echo $thanks['message'];?></textarea></div>
 							</div>
 							<div class="form-row">
 								<label class="col-sm-12 text-left"><?php echo $this->lang->line('only_visible'); ?></label>
@@ -41,18 +43,16 @@ if(!empty($stage_data) && !empty($cause_data)){ ?>
 										<?php
 										foreach($cause_donors AS $don){ ?>
 											<option value="<?php echo $don['user_id'];?>" <?php echo $don['user_id'] == $thanks['user_id'] ? 'selected' : '';   ?>><?php echo $don['name'];?></option>
-										<?php	
-										}
-										?>
+								<?php	}	?>
 									</select>
 								</div>
 							</div>
 							<div class='pop_buttons'>
-							<button id="" type="button" class="back_but btn create-btn"><?php echo $this->lang->line('cancel'); ?></button>
-							<input type="hidden" value="<?php echo $thanks['cause_id'];?>" id="cause_id">
-							<input type="hidden" value="" id="card_id">
-							<input type="hidden" value="<?php echo $thanks['id'];?>" id="db_card_id">
-							<button id="" type="button" class="save_thanks_card btn create-btn"><?php echo $this->lang->line('finish_thanks_card'); ?></button>
+								<button id="" type="button" class="back_but btn create-btn"><?php echo $this->lang->line('cancel'); ?></button>
+								<input type="hidden" value="<?php echo $thanks['cause_id'];?>" id="cause_id">
+								<input type="hidden" value="" id="card_id">
+								<input type="hidden" value="<?php echo $thanks['id'];?>" id="db_card_id">
+								<button id="" type="button" class="save_thanks_card btn create-btn"><?php echo $this->lang->line('finish_thanks_card'); ?></button>
 							</div>
 						</div>
 					</div>
@@ -81,11 +81,11 @@ if(!empty($stage_data) && !empty($cause_data)){ ?>
 							</div>
 						</div>
 						<div class='pop_buttons'>
-						<button id="" type="button" class="back_but btn create-btn"><?php echo $this->lang->line('cancel'); ?></button>
-						<input type="hidden" value="<?php echo $cause_data->id; ?>" id="cause_id">
-						<input type="hidden" value="" id="card_id">
-						<input type="hidden" value="" id="db_card_id">
-						<button id="" type="button" class="save_thanks_card btn create-btn"><?php echo $this->lang->line('finish_thanks_card'); ?></button>
+							<button id="" type="button" class="back_but btn create-btn"><?php echo $this->lang->line('cancel'); ?></button>
+							<input type="hidden" value="<?php echo $cause_data->id; ?>" id="cause_id">
+							<input type="hidden" value="" id="card_id">
+							<input type="hidden" value="" id="db_card_id">
+							<button id="" type="button" class="save_thanks_card btn create-btn"><?php echo $this->lang->line('finish_thanks_card'); ?></button>
 						</div>
 					</div>
 				</div>
@@ -122,11 +122,11 @@ if(!empty($stage_data) && !empty($cause_data)){ ?>
 							</div>
 						</div>
 						<div class='pop_buttons'>
-						<button id="" type="button" class="back_but btn create-btn"><?php echo $this->lang->line('cancel'); ?></button>
-						<input type="hidden" value="<?php echo $cause_data->id; ?>" id="cause_id">
-						<input type="hidden" value="" id="card_id">
-						<input type="hidden" value="" id="db_card_id">
-						<button id="" type="button" class="save_thanks_card btn create-btn"><?php echo $this->lang->line('finish_thanks_card'); ?></button>
+							<button id="" type="button" class="back_but btn create-btn"><?php echo $this->lang->line('cancel'); ?></button>
+							<input type="hidden" value="<?php echo $cause_data->id; ?>" id="cause_id">
+							<input type="hidden" value="" id="card_id">
+							<input type="hidden" value="" id="db_card_id">
+							<button id="" type="button" class="save_thanks_card btn create-btn"><?php echo $this->lang->line('finish_thanks_card'); ?></button>
 						</div>
 					</div>
 				</div>
@@ -289,19 +289,30 @@ if(!empty($stage_data) && !empty($cause_data)){ ?>
 					$cost += $act['act_pesimistic_scenario'];
 					$cost += $act['act_expected_scenario'];
 					$cost += $act['act_best_scenario'];
+					$act_amount = $act['act_added_amount'];
+					$act_cost = $cost;
+					$percentage = ceil(($act_amount/$act_cost)*100);
 					?>
 					<div class='row'>
 						<div class='col-md-8'>
 							<ul class="timeline timenew">
 								<li>
-									<div class="timeline-badge"><i class="fa  <?php echo $act['act_icon'];?>" aria-hidden="true"></i></div>
+									<div class="timeline-badge c100 p<?php echo $percentage; ?> big">
+										<i class="fa  <?php echo $act['act_icon'];?>" aria-hidden="true"></i>
+										<div class="slice">
+											<div class="bar"></div>
+											<div class="fill"></div>
+										</div>
+									</div>
 									<div class="timeline-panel">
 										<div class="timeline-heading">
 										  <h4 class="timeline-title"><?php echo $act['act_name'];?></h4>
 										</div>
 									</div>
 									<div class='timeline-right'><h4 class="timeline-title"><?php echo $act['act_description'];?></h4></div>
-								  <p class='amt'><?php echo number_format((float)$cost, 2, '.', '').' USD'; ?></p>
+								   <p class='amt'><?php if($cause_data->status == 3){ ?>
+									<input type="text" name="activity_amt" id="activity_amt_<?php echo $act['act_id'];?>" class="added_act_amt" value="<?php echo $act['act_added_amount'];?>"> USD / 
+									<?php } ?><?php echo number_format((float)$cost, 2, '.', '').' USD'; ?></p>
 								</li>
 							</ul>
 						</div>
@@ -313,7 +324,8 @@ if(!empty($stage_data) && !empty($cause_data)){ ?>
 								for ($x = 0; $x <= 3; $x++) { 
 								//echo $act['log_data'][$x]['description'];
 								?>
-									<li class="<?php echo (isset($act['log_data'][$x]['description']) && $act['log_data'][$x]['description'] !='') ? 'active' : ''; ?>"><a id="add_actlog_<?php echo $i; ?><?php echo $act['act_id']; ?>" href='javascript:void(0)' class=' add_actlog active'>
+									<li class="<?php echo (isset($act['log_data'][$x]['description']) && $act['log_data'][$x]['description'] !='') ? 'active' : ''; ?>">
+										<a id="add_actlog_<?php echo $i; ?><?php echo $act['act_id']; ?>" href='javascript:void(0)' class=' add_actlog active'>
 									<?php 
 									if(isset($act['log_data'][$x]['description']) && $act['log_data'][$x]['description'] !='')
 									{
@@ -321,7 +333,8 @@ if(!empty($stage_data) && !empty($cause_data)){ ?>
 									}else{ ?>
 									+ <?php echo $this->lang->line('add_activity_log'); ?>
 								<?php } ?>
-									</a></li>
+										</a>
+									</li>
 									<!--- Pop up ---->
 									<div id="pop_actlog_<?php echo $i; ?><?php echo $act['act_id']; ?>" class="popup activity_pop">
 										<div class="popup_body">
@@ -381,7 +394,7 @@ if(!empty($stage_data) && !empty($cause_data)){ ?>
 		<?php $i++;
 		} ?>
 	<div class='row com50'>
-		<div class='col-lg-4 col-md-3'></div>
+		<div class='col-lg-4 col-md-3'><a href="<?php echo base_url(); ?>admin/dashboard" class="btn creat-btn">Back to panel</a></div>
 		<div class='col-lg-4 col-md-6'></div>
 		<div class='col-lg-4 col-md-3'><button id="finish-cause-<?php echo $cause_data->id;?>" type="button" class="finish-cause btn creat-btn">
 		<?php echo $this->lang->line('finish_cause_button'); ?></button></div>

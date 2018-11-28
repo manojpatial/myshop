@@ -12,6 +12,7 @@
 		// echo '<pre>'; print_r($certificates_data); echo '------------------------</pre>';
 		// echo '<pre>'; print_r($services_data); echo '------------------------</pre>';
 		 // echo '<pre>'; print_r($activity_data); echo '</pre>';
+		  //echo '<pre>'; print_r($certificate_name); echo '</pre>';
 	?>
 	<div class='c-creation bottom50'>
 	
@@ -86,6 +87,9 @@
 									<div class='col-sm-8'>
 										<select name='certificates[]' id='certificates' class='select_certificate form-control'>
 											<option value="">Select your certificate from this list</option>
+											<!---<?php //foreach($certificate_name as $certificate){//?>
+											<option value="<?php //echo $certificate['id'];?>"><?php //echo $certificate['certificate_name'];?></option>
+											<?php //}// ?>---->
 											<option value="1" <?php echo (isset($certificates_data[$i]['cert_name']) && $certificates_data[$i]['cert_name'] =='Certificate 1') ?  'selected' : ''; ?> >Certificate 1</option>
 											<option value="2" <?php echo (isset($certificates_data[$i]['cert_name']) && $certificates_data[$i]['cert_name'] =='Certificate 2') ?  'selected' : ''; ?>>Certificate 2</option>
 											<option value="3" <?php echo (isset($certificates_data[$i]['cert_name']) && $certificates_data[$i]['cert_name'] =='Certificate 3') ?  'selected' : ''; ?>>Certificate 3</option>

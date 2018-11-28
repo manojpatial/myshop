@@ -25,11 +25,20 @@
                     ?>
 	
 		<div class='row justify-content-center'>
-		<ul class="lang_menus">
+		<div class="inline-item">
+				<select id="Dropdownlanguage">
+    
+   <option value="<?php echo base_url(); ?>LangSwitch/switchLanguage/english" <?php echo $this->lang->line('language_key') == "English" ? "selected" : "";  ?>>English</option>
+   <option value="<?php echo base_url(); ?>LangSwitch/switchLanguage/spanish" <?php echo $this->lang->line('language_key') == "Spanish" ? "selected" : "";  ?>>Español</option>
+   <option value="<?php echo base_url(); ?>LangSwitch/switchLanguage/chinese" <?php echo $this->lang->line('language_key') == "Chinese" ? "selected" : "";  ?>>Chinese</option>
+   </select>
+   </div>
+		
+		<!--<ul class="lang_menus">
 						<li><a href='<?php echo base_url(); ?>LangSwitch/switchLanguage/english'>English</a></li>
 						<li><a href='<?php echo base_url(); ?>LangSwitch/switchLanguage/spanish'>Español </a></li>
 						<li><a href='<?php echo base_url(); ?>LangSwitch/switchLanguage/chinese'>Chinese </a></li>
-					</ul>
+					</ul>-->
 			<div class='col-sm-4'>
 				<div class='clyc-box'>
 					<a href='<?php echo base_url();?>'>
@@ -119,6 +128,15 @@ $(document).ready(function() {
 			 
 		} 
     });
+	
+	///// // ///  change lanuage dropdown menu url   	
+   jQuery(document).ready( function() {
+   jQuery('#Dropdownlanguage').change( function() {
+      location.href = jQuery(this).val();
+     });
+   });
+	
+	
 }); 
 
  

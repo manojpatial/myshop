@@ -158,6 +158,8 @@ $lang["finish_thanks_card"] = "Terminar";
  
  /***----corporate  projects page variable---***/
  $lang["project_page_header_title"] = "Puede crear un proyecto agregando causas que su empresa y sus compañeros de trabajo puedan encontrar interesantes";
+ 
+ $lang["selected_causes_error_msg"] = "<strong>Error! </strong> Por favor seleccione un mínimo de 3 causas para crear proyecto";
  $lang["all"] = "Todos";
  $lang["filter"] = "Filtrar";
  $lang["selected"] = "Seleccionado";
@@ -212,3 +214,17 @@ $lang["finish_thanks_card"] = "Terminar";
 /************-------coworker crc project variable----*************/
  $lang["view_result_button"]='Ver resultado';
  $lang["vote_now_button"]='Vota ahora';
+ 
+ /************-------coworker voting popup  variable----*************/
+  $lang["voting_header_title"]='votación';
+  $lang["vote"]='Votar';
+  $lang["thanks_msg"]='Gracias por tu voto';
+  $lang["result_available_date_msg"]='El resultado estará disponible en';
+  $lang["submit_button"]='Enviar';
+  
+ /**********----------coworker view result page variable----------------*************/ 
+  $lang["view_result_header_title"]='Resultado de la votación';
+   $lang["donation_track"]='Donation Tracking';
+
+ 
+  

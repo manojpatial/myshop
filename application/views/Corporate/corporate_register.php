@@ -31,7 +31,7 @@
 							<div class='col-sm-8'><input type='text'  name="name" class='form-control' /></div>
 						</div>
 						<div class='form-row'>
-							<label class='col-sm-4'><?php echo $this->lang->line('your_name_email'); ?></label>
+							<label class='col-sm-4'><?php echo $this->lang->line('your_email_label'); ?></label>
 							<div class='col-sm-8'><input type='text'  name ="email" class='form-control' /></div>
 						</div>
 						<div class='form-row'>

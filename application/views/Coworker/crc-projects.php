@@ -4,8 +4,8 @@
 ?>
 
 <section class='csr-p'>
-		<div class='container-fluid'>
-			<div class='row justify-content-center'>
+		<div class='container-fluid com30'>
+			<div class='row'>
 			<?php 
 			foreach($projects as $project)
 			{
@@ -24,12 +24,12 @@
 					$type_text = $this->lang->line('voting_type_two_des');
 				}
 				else if($voting_type == 3){
-					$type_text = $this->lang-line('voting_type_three_des');
+					$type_text = $this->lang->line('voting_type_three_des');
 				}else{
 					
 				}
 				?>
-				<div class='col-md-6 col-sm-12'>
+				<div class='col-md-6 col-sm-12' style="margin-bottom:30px;">
 					<div class='csr-wrap text-center'>
 						<h1 class='body-title text-cyan'><?php echo $project['name']; ?></h1>
 						<p><?php echo $project['description']; ?></p>
@@ -50,7 +50,7 @@
 					</div>
 					
 				</div>
-				
+				 
 	  <?php } ?>
 			</div>
 		</div>

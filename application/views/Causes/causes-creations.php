@@ -72,11 +72,11 @@
 									<label class='col-sm-4'><?php echo $this->lang->line('certificate'); ?></label>
 									<div class='col-sm-8'>
 										<select name='certificates[]' id='certificates' class='select_certificate form-control'>
-											<!--<option value="">Select your certificate from this list</option>-->
-											<option value="1">Certificate 1</option>
-											<option value="2">Certificate 2</option>
-											<option value="3">Certificate 3</option>
-											<option value="4">Certificate 4</option>
+											<option value="">Select your certificate from this list</option>
+											<?php foreach($certificate_name as $certificate){?>
+											<option value="<?php echo $certificate['id'];?>"><?php echo $certificate['certificate_name'];?></option>
+											<?php } ?>
+											 
 											<option value="other">Other</option>
 										</select>
 									</div>

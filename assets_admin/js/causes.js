@@ -1518,8 +1518,61 @@ $(document).ready(function() {
 	           }
            });
 	 });
+	 
+	 
+	 ///////////// certificate on change  get data
+	 $(document).on("change", "#certificates", function() {
+	  //alert("Working"); 
+	  var id = $(this).val();
+	  var certDivId = $(this).closest('.certificate_form').attr('id');
+	  $.ajax({
+			type: "POST",
+			url: base_url+"Admin/certificate_name",
+			data: "id="+id,
+			dataType: 'json',
+			cache: false,
+			success: function(result){
+				$.each(result, function(i, item) {
+		        // alert(result[i].benefits);
+				
+		       var corporate_cenefits = result[i].benefits;
+			   $('#'+certDivId+' #corporate_benefits').val(corporate_cenefits)
+			    //alert(corporate_cenefits);
+			   var restrictions = result[i].restrictions;
+			    $('#'+certDivId+' #corporate_restrictions').val(restrictions)
+			   //alert(restrictions);
+		        });
+				
+		    }
+		});
+      
+    })
+  
 	
-	
+	//Update performance added activity amount
+	$(".added_act_amt").focusout(function(){
+		var amount = $(this).val();
+		var inputId = $(this).attr('id');
+		var explode = inputId.split('_');
+		var actid = explode[2];
+		var dataString = {'actid': actid, 'amount': amount};
+		$.ajax({
+			type: "POST",
+			url: base_url+"Admin/save_activity_amount",
+			data: dataString,
+			//dataType: 'json',
+			cache: false,
+			success: function(result){
+				//alert(result);
+				if(result == 1){
+					alert(updated);
+				}else{
+					//alert('Error.');
+				}
+				
+			}
+		});
+	});
 
 	//Menu show/hide
 	$(document).on("click", ".avt-sec a", function() {

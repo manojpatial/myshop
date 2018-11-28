@@ -14,7 +14,7 @@
 <script type="text/javascript" src="<?php echo base_url();?>assets_admin/js/company.js"></script>
 <script type="text/javascript">
 
-
+ 
  
 </script>  
  

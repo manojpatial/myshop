@@ -1,7 +1,9 @@
 $(document).ready(function() {
 	var base_url = $('#base').val(); 
-	var current_language = $('#current_language').val();
-	if(current_language == 'Chinese')
+	var current_language = $('#current_language').val()
+	
+	
+	if(current_language == 'Chinese') 
 	{
 		var invalid_image = 'Invalid Image File';
 		var image_size_error = 'Image File Size is very big';
@@ -15,6 +17,7 @@ $(document).ready(function() {
 		var remove_serv_confirm = 'Are you sure  to remove this service?';
 		var add_activity_text = 'Add Activity';
 		var thanks_card = 'Thanks Card';
+		var updated = 'Updated';
 		
 	}
 	else if(current_language == 'Spanish')
@@ -32,6 +35,7 @@ $(document).ready(function() {
 		var remove_serv_confirm = 'Are you sure  to remove this service?';
 		var add_activity_text = 'Add Activity';
 		var thanks_card = 'Thanks Card';
+		var updated = 'Updated';
 	}
 	else
 	{
@@ -47,6 +51,7 @@ $(document).ready(function() {
 		var remove_serv_confirm = 'Are you sure  to remove this service?';
 		var add_activity_text = 'Add Activity';
 		var thanks_card = 'Thanks Card';
+		var updated = 'Updated';
 		
 		
 	}
@@ -1375,7 +1380,7 @@ $(document).ready(function() {
 		var explode_inputId = inputId.split('-');
 		var act_id = explode_inputId[2];
 		var popId = $(this).closest('.activity_pop').attr('id');
-		;
+		
 		var name = document.getElementById(inputId).files[0].name;
 		var form_data = new FormData();
 		var ext = name.split('.').pop().toLowerCase();
@@ -1672,7 +1677,7 @@ $(document).ready(function() {
 				//dataType: 'json',
 				cache: false,
 				success: function(result){
-					alert(result);
+					//alert(result);
 					$("#"+card_id).text(donor_user_name+" "+thanks_card);
 					$("#"+divid+" #db_card_id").val(result);
 					$('.popup').hide();
@@ -1725,9 +1730,9 @@ $(document).ready(function() {
 		$('.popup').show();
 	});
 
-	$('.popup').click(function(){
+	/* $('.popup').click(function(){
 		$('.popup').hide();
-	});
+	}); */
 	$('.popupCloseButton').click(function(){
 		$('.popup').hide();
 	});
@@ -1747,6 +1752,7 @@ $(document).ready(function() {
 	$(document).on("click", ".cancel_but", function() {
 		$('.popup').hide();
 	});
+	
 	
 	// save Activity log
 	$(document).on("click", ".save_act_log", function() {
@@ -1806,79 +1812,103 @@ $(document).ready(function() {
 		}
 	});
 	
-	
 	/*----- Activity Log jQuery end ---------*/
 	
-	/*-----
-		Form validation for Cause user registration form
+	//On load show Approved Cause popup on My Cause page Start
+	$('.approve_pop').each(function() {
+		var current_language = $('#current_language').val();
 		
-	
-	$( "#Causes_register" ).submit(function( event ) {
-		var counter = 0;
-		$(".required").each(function() {
-		   // alert($(this).val());
-			if ($(this).val() == "") {
-				//alert('Y');
-				$(this).next( "span.error" ).show();
-				counter++;
-			}else{
-			   //alert('N');
-			   $(this).next( "span.error" ).hide();
-			}
-		});   
-		
-		var email = $("#email").val();
-		var conf_email = $("#conf_email").val();
-		var txt = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-		if (email != '' && !txt.test(email)) {
-			$("#email").next( "span.error" ).text('Email is not valid').show();
-			counter = 1;
-		} else if(email == '') {
-			$("#email").next( "span.error" ).text('Email is required').show();
-			counter = 1;
-		}else{
-			$("#email").next( "span.error" ).text('').hide();
-			//counter = 0;
-		}
-		if (conf_email != '' && !txt.test(conf_email)) {
-			$("#conf_email").next( "span.error" ).text('Email is not valid').show();
-			//counter = 1;
-		} else if(conf_email == '') {
-			$("#conf_email").next( "span.error" ).text('Confirm email is required').show();
-			counter = 1;
-		}else{
-			$("#conf_email").next( "span.error" ).text('').hide();
-			//counter = 0;
-		}
-		if ((email !='' && conf_email !='') && (email != conf_email))
-		{
-			$("#conf_email").next( "span.error" ).text('Email and confirm email are not the same').show();
-			counter = 1;
-		}
-		else{
-			//$("#conf_email").next( "span.error" ).text('').hide();
-			//counter = 0;
-		}
-		var logoName = $("#logoName").val();
-		if(logoName ==''){
-			$(".logo_error").show();
-			counter = 1;
-		}else{
-			$(".logo_error").hide();
-			
-		}
-		//alert(counter);
-		if(counter > 0){
-		  return false;
-		 
-		}
-	  
-	});**/
+		var approvCauseId = $(this).val();
+		//var explode = approvCauseId.split('_');
+		//var id = explode[2];
 
+		$('#approve_pop_'+approvCauseId).show();
+	});
+	//Hide Popup and change status of pop_approved in database to 1
+	$(document).on("click", ".approve_cause", function() {
+		var formDivId = $(this).closest('.popup_appr').attr('id');
+		var causeId = $('#'+formDivId+' #appr_cause_id').val();
+		//alert(causeId);
+		$.ajax({
+			type: "POST",
+			url: base_url+"Causes/approve_cuase_status",
+			data: "cause_id="+causeId,
+			dataType: 'json',
+			cache: false,
+			success: function(result){
+				//alert(result);
+				if(result == 1){
+					$('#'+formDivId).hide();
+				}else{
+					//alert('Error.');
+				}
+				
+			}
+		});
+		
+
+		
+	});
+	
+///////////// certificate on change  get data
+	 $(document).on("change", "#certificates", function() {
+	  //alert("Working"); 
+	  var id = $(this).val();
+	  var certDivId = $(this).closest('.certificate_form').attr('id');
+	  $.ajax({
+			type: "POST",
+			url: base_url+"Causes/certificate_name",
+			data: "id="+id,
+			dataType: 'json',
+			cache: false,
+			success: function(result){
+				$.each(result, function(i, item) {
+		        // alert(result[i].benefits);
+				
+		       var corporate_cenefits = result[i].benefits;
+			   $('#'+certDivId+' #corporate_benefits').val(corporate_cenefits)
+			    //alert(corporate_cenefits);
+			   var restrictions = result[i].restrictions;
+			    $('#'+certDivId+' #corporate_restrictions').val(restrictions)
+			   //alert(restrictions);
+		        });
+				
+		    }
+		});
+      
+    })
+  
+	//Update performance added activity amount
+	$(".added_act_amt").focusout(function(){
+		var amount = $(this).val();
+		var inputId = $(this).attr('id');
+		var explode = inputId.split('_');
+		var actid = explode[2];
+		var dataString = {'actid': actid, 'amount': amount};
+		$.ajax({
+			type: "POST",
+			url: base_url+"Causes/save_activity_amount",
+			data: dataString,
+			//dataType: 'json',
+			cache: false,
+			success: function(result){
+				//alert(result);
+				if(result == 1){
+					alert(updated);
+				}else{
+					//alert('Error.');
+				}
+				
+			}
+		});
+	});
+	
+	
 	//Menu show/hide
 	$(document).on("click", ".avt-sec a", function() {
 		$('.menus').toggle();
 	
 	});
+	
 	
 }); 

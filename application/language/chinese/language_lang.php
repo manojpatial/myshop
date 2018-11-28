@@ -156,6 +156,7 @@ $lang["finish_thanks_card"] = "完";
  
  /***----corporate  projects page variable---***/
  $lang["project_page_header_title"] = "您可以创建一个项目，添加您的公司和同事可能感兴趣的原因";
+ $lang["selected_causes_error_msg"] = "<strong>错误! </strong> 请为创建项目选择最少3个原因";
  $lang["all"] = "所有";
  $lang["filter"] = "过滤";
  $lang["selected"] = "选";
@@ -211,3 +212,14 @@ $lang["finish_thanks_card"] = "完";
 /************-------coworker crc project variable----*************/
  $lang["view_result_button"]='查看结果';
  $lang["vote_now_button"]='现在投票'; 
+
+ /************-------coworker voting popup  variable----*************/
+  $lang["voting_header_title"]='表决';
+  $lang["vote"]='投票';
+  $lang["thanks_msg"]='谢谢你的投票!';
+  $lang["result_available_date_msg"]='结果将在';
+  $lang["submit_button"]='提交';
+  
+  /**********----------coworker view result page variable----------------*************/ 
+  $lang["view_result_header_title"]='投票结果';
+   $lang["donation_track"]='Donation Tracking';

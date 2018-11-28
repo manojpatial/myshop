@@ -16,7 +16,8 @@
 					 <?php //echo $projects['selected_causes']; ?><br>
 					</a>
 					</li>
-					<a href='JavaScript:Void(0);' id="<?php echo $projects['id']; ?>"class="deleteProject"><?php echo $this->lang->line('delete_button'); ?></a>
+					<br>
+					<a href='JavaScript:Void(0);' id="<?php echo $projects['id']; ?>" class="deleteProject" ><?php echo $this->lang->line('delete_button'); ?></a>
 					<?php } ?>
 						<li><a href="<?php echo base_url('Corporate/projects')?>"><i class="fa fa-plus" aria-hidden="true"></i> <?php echo $this->lang->line('create'); ?></a></li>
 						

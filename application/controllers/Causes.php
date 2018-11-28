@@ -1,6 +1,5 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 class Causes extends CI_Controller {
 	/** 
 	 * Index Page for this controller.
@@ -17,10 +16,9 @@ class Causes extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
-	public function __construct() 
+	public function __construct()
     {  
         parent::__construct();
-		 
 		$this->load->library('session');
 		$this->load->helper('url');
 		$this->load->model('Home_model');
@@ -31,7 +29,6 @@ class Causes extends CI_Controller {
 		$this->load->library('encrypt');
 		//$this->lang->load('english','english');
 		//$this->load->library('pagination');
-		
 	}
 	public function index()
 	{
@@ -42,13 +39,9 @@ class Causes extends CI_Controller {
 		else{
 			redirect('Causes/mycause');
 		}
-		
 	}
-	 
-
 	 /*---register page ---*/
 	public function register(){
-		
 		if ($this->input->server('REQUEST_METHOD') === 'POST') {  
 			//echo'<pre>';  print_r($this->input->post()); echo'</pre>'; die;
 			$institution = $this->input->post('institution');
@@ -57,7 +50,6 @@ class Causes extends CI_Controller {
 			$password = $this->input->post('password');
 			$status = $this->input->post('status');
 			$causelogo = $this->input->post('logoName');
-			
 			$ins_legal_name = $this->input->post('ins_legal_name');
 			$ins_social_name = $this->input->post('ins_social_name');
 			$ins_line_business = $this->input->post('ins_line_business');
@@ -73,11 +65,6 @@ class Causes extends CI_Controller {
 			$bank_social_number = $this->input->post('bank_social_number');
 			$bank_email = $this->input->post('bank_email');
 			$ins_certificate = $this->input->post('ins_certificate');
-			
-			
-			
-			
-			
 			$role = $this->input->post('role');
 			$created = date( 'Y-m-d H:i:s' );
 			if($this->Causes_model->check_email($email) == 0)
@@ -90,8 +77,6 @@ class Causes extends CI_Controller {
 				'role' => 2,
 				'created' => date( 'Y-m-d H:i:s' ), 
 				);
-							
-						
 				$user_id = $this->Causes_model->AddData('users',$data);
 			    $this->Causes_model->AddUserData($user_id, 'cause_logo', $causelogo);
 				$this->Causes_model->AddUserData($user_id, 'cause_institution', $institution);
@@ -109,10 +94,8 @@ class Causes extends CI_Controller {
 				$this->Causes_model->AddUserData($user_id, 'bank_social_number', $bank_social_number);
 				$this->Causes_model->AddUserData($user_id, 'bank_email', $bank_email);
 				$this->Causes_model->AddUserData($user_id, 'ins_certificate', $ins_certificate);
-				
 				//Send email to new user with login detail
 				$this->load->library('email');
-
 				$config['protocol']    = 'smtp';
 				$config['charset'] = 'utf-8';
 				$config['wordwrap'] = TRUE;
@@ -121,27 +104,21 @@ class Causes extends CI_Controller {
 				$config['smtp_user'] = 'test2@qualitywebbiz.com';
 				$config['smtp_pass'] = ']4k0W}{g4V#?';
 				$config['smtp_port'] = '587';
-				
-				
 				$this->email->initialize($config);
 				$this->email->from('info@qualitywebbiz.com', 'CLYC');
 				$this->email->to($email);
 				$this->email->subject('Welcome Email');
 				$template = FCPATH."application/views/Causes/email-templates/new_user.txt";
 				$tpl = file_get_contents($template);
-			
 				$tpl = str_replace('{Name}',$name,$tpl);
 				$tpl = str_replace('{User_name}',$email,$tpl);
 				$url = base_url().'/Causes/';
 				$tpl = str_replace('{URL}',$url,$tpl);
 				$tpl = str_replace('{Password}',$password,$tpl);
-				
 				$this->email->message($tpl); 			
 				$this->email->send();
-				
 				//echo '<pre>'; print_r($tpl); die;
 				///echo'<pre>'; print_r($to); print_r($message); print_r($subject); 
-								
 				$data['message_success'] = TRUE;
 				$this->session->set_flashdata('message_success', 'You have successfully registered. Please check your mail for login details'); 			
 				redirect('Causes/login');			
@@ -153,20 +130,14 @@ class Causes extends CI_Controller {
 				redirect('Causes/register');
 			}
 		}
-		 
-		 
 		$data['users']=$this->Causes_model->getReco('users');
 		$header['title']='Create New Institution Account';
 		$this->load->view('Causes/header',$header);
 		$this->load->view('Causes/register');
 		$this->load->view('Causes/footer');
-	
-	
 	}
-	
 	/***--- Login  function for Cause user ***/
 	public function login(){	
-		
 		if ($this->input->server('REQUEST_METHOD') === 'POST') {			
 			$email = $this->input->post('email');
 			$passWord = MD5($this->input->post('password'));						
@@ -182,11 +153,9 @@ class Causes extends CI_Controller {
 				'image' => $image->meta_value
 				);
 				$this->session->set_userdata('logged_in', $data);
-					
 				$data['message_success'] = TRUE;
 				$this->session->set_flashdata('message_success', 'You Have Successfully login'); 			
 				redirect('Causes/mycause');
-				
 			}
 			else {
 				$data['message_error'] = TRUE;
@@ -202,7 +171,6 @@ class Causes extends CI_Controller {
 			redirect('Causes/mycause');
 		}
 	}
-	
 	/***--- Logout function for Cause user ***/
 	public function logout()  
 		{
@@ -210,9 +178,7 @@ class Causes extends CI_Controller {
 		session_destroy();
 		redirect(site_url(), 'refresh');
 	}
-	
 	/***--- Upload user logo image from registration page ***/
-	
 	public function upload_institution_logo(){
 		if($_FILES["file"]["name"] != '')
 		{
@@ -225,9 +191,7 @@ class Causes extends CI_Controller {
 		 echo $name;
 		}
 	}
-	
 	//////// my-cause 
-	
 	public function mycause()
 	{ 
 		if(!empty($this->session->userdata('logged_in')))
@@ -242,21 +206,22 @@ class Causes extends CI_Controller {
 			$this->load->view('Causes/header',$header);
 			$this->load->view('Causes/my-causes',$data);
 			$this->load->view('Causes/footer');
-		}
+		} 
 		else{
 				redirect(site_url().'Causes/login', 'refresh');
 		}
 	}
-	
-	
 	/* Load cause creation page */
 	public function causescreation()
 	{ 
 		if(!empty($this->session->userdata('logged_in')))
 		{
 			$header['title'] = $this->lang->line('cause_creation');
+			$certificate_name = $this->Causes_model->getReco('manage_certificates');
+			$data['certificate_name']=$certificate_name;
+			//echo '<pre>'; print_r($certificate_name); echo '</pre>';
 			$this->load->view('Causes/header',$header);
-			$this->load->view('Causes/causes-creations');
+			$this->load->view('Causes/causes-creations',$data);
 			$this->load->view('Causes/footer');
 		}
 		else{
@@ -264,7 +229,6 @@ class Causes extends CI_Controller {
 		}
 	}
 	/***--- Upload cause logo image from cause creation page ***/
-	
 	public function upload_cause_picture(){
 		if($_FILES["file"]["name"] != '')
 		{
@@ -277,9 +241,7 @@ class Causes extends CI_Controller {
 		 echo $name;
 		}
 	}
-	
 	/***--- Upload activity photo image ***/
-	
 	public function upload_activity_photo(){
 		//echo $_POST['act_id']; die('here');
 		if($_FILES["file"]["name"] != '')
@@ -293,20 +255,16 @@ class Causes extends CI_Controller {
 		/*  $data = array(	
 				'activity_photo' => $name, 
 				);
-							
 		$this->db->where('act_id', $_POST['act_id']);  				
 		$this->db->update('cause_stage_activity',$data); */
 		echo $name;
 		}
 	}
-	
 	//save cause data into database
 	public function cause_creation_save_info(){
 		//echo '<pre>'; print_r($_POST); 
-		
 		//die('ddd');
 		//echo '<pre>'; print_r($_POST); die;
-
 		$another_activity = $_POST['another_activity'];
 		$cause_name = $_POST['cause_name'];
 		$cause_desc = $_POST['cause_desc'];
@@ -318,9 +276,6 @@ class Causes extends CI_Controller {
 		$db_cert_ids = $_POST['db_cert_ids'];
 		$db_serv_ids = $_POST['db_serv_ids'];
 		$user_id = $_POST['user_id'];
-		
-		
-		
 		$data = array(	
 				'user_id' => $user_id,
 				'another_activity' => $another_activity,
@@ -334,12 +289,9 @@ class Causes extends CI_Controller {
 				'created' => date( 'Y-m-d H:i:s' ), 
 				'status' => 0, 
 				);
-							
-						
 		$cause_id = $this->Causes_model->AddData('causes',$data);
 		//$cause_id = 2;
 		$this->session->set_userdata('cause_id', $cause_id);
-		
 		$db_cert_ids = array_filter($_POST['db_cert_ids']);
 		$cert_count = count($db_cert_ids);
 		//save certificates
@@ -353,7 +305,6 @@ class Causes extends CI_Controller {
 		}
 		$db_serv_ids = array_filter($_POST['db_serv_ids']);
 		$serv_count = count($db_serv_ids);
-		
 		//save services
 		for($i = 0; $i < $serv_count; $i++) { 
 			$servdata = array(	
@@ -363,14 +314,11 @@ class Causes extends CI_Controller {
 			$this->db->update('causes_services',$servdata);
 			//echo $this->db->last_query(); echo '<pre>';
 		}
-		 
 		echo $cause_id;
 	}
-	
 	//Update cause data into database
 	public function cause_creation_update_info(){
 		//echo '<pre>'; print_r($_POST);
-		
 		//cause data
 		$another_activity = $_POST['another_activity'];
 		$cause_name = $_POST['cause_name'];
@@ -383,8 +331,6 @@ class Causes extends CI_Controller {
 		$user_id = $_POST['user_id'];
 		//$causePic = $_POST['causePic'];
 		$cause_id = $_POST['cause_id'];
-		
-		
 		$data = array(	
 			'another_activity' => $another_activity,
 			'user_id' => $user_id,
@@ -398,10 +344,8 @@ class Causes extends CI_Controller {
 			'created' => date( 'Y-m-d H:i:s' ), 
 			'status' => 0, 
 		);
-							
 		$this->db->where('id', $cause_id);  				
 		$this->db->update('causes',$data); //update cause info
-		
 		$db_cert_ids = array_filter($_POST['db_cert_ids']);
 		$cert_count = count($db_cert_ids);
 		//save certificates
@@ -415,7 +359,6 @@ class Causes extends CI_Controller {
 		}
 		$db_serv_ids = array_filter($_POST['db_serv_ids']);
 		$serv_count = count($db_serv_ids);
-		
 		//save services
 		for($i = 0; $i < $serv_count; $i++) { 
 			$servdata = array(	
@@ -429,7 +372,6 @@ class Causes extends CI_Controller {
 	}
 	//save certificates data into database
 	public function cause_creation_save_certificates(){
-		
 		//echo '<pre>'; print_r($_POST); die;
 		$certificates_name = $_POST['certificates_name'];
 		$other_certificae = $_POST['other_certificae'];
@@ -444,16 +386,11 @@ class Causes extends CI_Controller {
 				'cert_image' => $imagename,
 				'cause_id' => 0,
 				);
-							
-						
 		$act_id = $this->Causes_model->AddData('causes_certificates',$data);
-		
 		echo $act_id;
 	}
-	
 	//Update certificates data into database
 	public function cause_creation_update_certificates(){
-		
 		//echo '<pre>'; print_r($_POST); die;
 		$certificates_name = $_POST['certificates_name'];
 		$other_certificae = $_POST['other_certificae'];
@@ -468,17 +405,12 @@ class Causes extends CI_Controller {
 				'cert_restrictions' => $corporate_restrictions,
 				'cert_image' => $imagename,
 				);
-							
-						
 		$this->db->where('cert_id', $dbCertId);  
 		$this->db->update('causes_certificates', $data); 
-		
 		echo $dbCertId;
 	}
-	
 	//save services data into database
 	public function cause_creation_save_services(){
-		
 		//echo '<pre>'; print_r($_POST); die;
 		$service_name = $_POST['service_name'];
 		$imagename = $_POST['imagename'];
@@ -488,13 +420,10 @@ class Causes extends CI_Controller {
 					'cause_id' => 0,
 				);		
 		$serv_id = $this->Causes_model->AddData('causes_services',$data);
-		
 		echo $serv_id;
 	}
-	
 	//Update services data into database
 	public function cause_creation_update_services(){
-		
 		//echo '<pre>'; print_r($_POST); die;
 		$service_name = $_POST['service_name'];
 		$imagename = $_POST['imagename'];
@@ -505,16 +434,11 @@ class Causes extends CI_Controller {
 				);		
 		$this->db->where('serv_id', $dbServId);  
 		$this->db->update('causes_services', $data); 
-		
 		echo $dbServId;
 	}
-	
-	
 	//save Activity data into database
 	public function cause_creation_save_activity(){
 		//echo '<pre>'; print_r($_POST); die;
-		
-		
 		$act_name = $_POST['act_name'];
 		$act_number = $_POST['act_number'];
 		$act_desc = $_POST['act_desc'];
@@ -535,19 +459,12 @@ class Causes extends CI_Controller {
 				'stage_id' =>$activity,  //this is temprary id. Will Update after creation of stage
 				'cause_id' => $cause_id, 
 				);
-							
-						
 		$act_id = $this->Causes_model->AddData('cause_stage_activity',$data);
-		
 		echo $act_id;
 	}
-	
-	
 	//Update Activity data into database
 	public function cause_creation_update_activity(){
 		//echo '<pre>'; print_r($_POST); die;
-		
-		
 		$act_name = $_POST['act_name'];
 		$act_number = $_POST['act_number'];
 		$act_desc = $_POST['act_desc'];
@@ -569,20 +486,13 @@ class Causes extends CI_Controller {
 				'stage_id' =>$activity,  //this is temprary id. Will Update after creation of stage
 				'cause_id' => $cause_id, 
 				);
-							
-						
 		$this->db->where('act_id', $db_act_id);  
 		$this->db->update('cause_stage_activity', $data); 
-		
 		echo $db_act_id;
 	}
-	
-	
 	//save Stage data into database
 	public function cause_creation_save_stage(){
 		//echo '<pre>'; print_r($_POST); die;
-		
-		
 		$stg_name = $_POST['stg_name'];
 		$stg_number = $_POST['stg_number'];
 		$stg_desc = $_POST['stg_desc'];
@@ -606,12 +516,9 @@ class Causes extends CI_Controller {
 		}
 		echo $stg_id;
 	}
-	
 	//save Stage data into database
 	public function cause_creation_update_stage(){
 		//echo '<pre>'; print_r($_POST); die;
-		
-		
 		$stg_name = $_POST['stg_name'];
 		$stg_number = $_POST['stg_number'];
 		$stg_desc = $_POST['stg_desc'];
@@ -637,8 +544,6 @@ class Causes extends CI_Controller {
 		}
 		echo $db_stg_id;
 	}
-	
-	
 	//display dynamic project preview on click of Project tab on Cause ct=reation amd edit page
 	public function get_view_ajax()
 	{
@@ -659,10 +564,39 @@ class Causes extends CI_Controller {
 		$data['serv_data'] = $serv_data;
 		$data['cause_donors'] = $cause_donors;
 		$data['thanks_card'] = $thanks_card;
-	
 		$response = $this->load->view('Causes/causes-project',$data,TRUE);
 		echo $response; 
 	}
+	
+	
+	
+	//display dynamic project preview on click of Project tab on Cause ct=reation amd edit page
+	public function update_performance()
+	{
+		$cause_id = $this->uri->segment(3);
+		$cause_data = $this->Causes_model->getCauseData($cause_id); 
+		$cause_userdata = $this->Causes_model->getCauseUserData($cause_id); 
+		$stage_data = $this->Causes_model->getStageData($cause_id); 
+		$activity_data = $this->Causes_model->getActivityData($cause_id); 
+		$cert_data = $this->Causes_model->getAllCertificateData($cause_id); 
+		$serv_data = $this->Causes_model->getAllServiceData($cause_id); 
+		$cause_donors = $this->Causes_model->getAllCauseDonors($cause_id); 
+		$thanks_card = $this->Causes_model->getAllThanksCard($cause_id); 
+		$data['cause_data'] = $cause_data;
+		$data['cause_userdata'] = $cause_userdata;
+		$data['stage_data'] =$stage_data;
+		$data['activity_data'] = $activity_data;
+		$data['cert_data'] = $cert_data;
+		$data['serv_data'] = $serv_data;
+		$data['cause_donors'] = $cause_donors;
+		$data['thanks_card'] = $thanks_card;
+		$header['title'] = 'Update Performance';
+		$this->load->view('Causes/header',$header);
+			$this->load->view('Causes/causes-project',$data);
+			$this->load->view('Causes/footer');
+	}
+	
+	
 	
 	//Set status to 1 after click on Finish Cause button on Project tab
 	public function finish_cause()
@@ -678,6 +612,20 @@ class Causes extends CI_Controller {
 		exit;
 	}
 	
+	
+	//Set status of pop_approve to 1 after click on Got it button on popup
+	public function approve_cuase_status()
+	{
+		$cause_id = $_POST['cause_id'];
+		$data = array(	
+					'pop_approve' => 1 
+				);			
+		$this->db->where('id', $cause_id);  				
+		$cause_id = $this->db->update('causes',$data);
+		//echo $this->db->last_query(); die;
+		echo '1';
+		exit;
+	}
 	//Set status to 2 after click on Finish Cause button on Project tab
 	public function publish_cause()
 	{
@@ -685,7 +633,6 @@ class Causes extends CI_Controller {
 		$data = array(	
 					'status' => 2 
 				);
-							
 		$this->db->where('id', $cause_id);  				
 		$cause_id = $this->db->update('causes',$data);
 		//$this->session->set_userdata('cause_id', $cause_id);
@@ -698,14 +645,13 @@ class Causes extends CI_Controller {
 			echo  '0';
 		}
 	}
-	
 	/* Load cause creation page */
 	public function edit_cause()
 	{ 
 		if(!empty($this->session->userdata('logged_in')))
 		{
 			$cause_id = $this->uri->segment(3);
-
+			
 			$cause_data = $this->Causes_model->getCauseData($cause_id); 
 			$stage_data = $this->Causes_model->getStageData($cause_id); 
 			$activity_data = $this->Causes_model->getActivityData($cause_id);
@@ -717,6 +663,9 @@ class Causes extends CI_Controller {
 			$data['activity_data'] = $activity_data;
 			$data['certificates_data'] = $certificates_data;
 			$data['services_data'] = $services_data;
+			$certificate_name = $this->Causes_model->getReco('manage_certificates');
+			$data['certificate_name']=$certificate_name;
+			//echo '<pre>'; print_r($certificate_name);echo '</pre>';
 			$header['title']=$this->lang->line('edit_cause');
 			$this->load->view('Causes/header',$header);
 			$this->load->view('Causes/causes-edit',$data);
@@ -726,8 +675,6 @@ class Causes extends CI_Controller {
 				redirect(site_url().'Causes/login', 'refresh');
 		}
 	}
-	
-	
 	//Delete crtificate from edit cause page
 	public function delete_certificate()
 	{
@@ -744,7 +691,6 @@ class Causes extends CI_Controller {
 			echo  '0';
 		}
 	}
-	
 	//Delete service from edit cause page
 	public function delete_service()
 	{
@@ -761,7 +707,6 @@ class Causes extends CI_Controller {
 			echo  '0';
 		}
 	}
-	
 	//Add thanks card
 	public function add_thanks_card()
 	{
@@ -769,11 +714,10 @@ class Causes extends CI_Controller {
 		$donor_user_id = $_POST['donor_user_id'];
 		$cause_id = $_POST['cause_id'];
 		$data = array(	
-				'messgae' => $message,
+				'message' => $message,
 				'donor_user_id' => $donor_user_id,
 				'cause_id' => $cause_id 
 				);
-							
 		$row_id = $this->Causes_model->AddData('thanks_card',$data);
 		if ($row_id > 0)
 		{
@@ -784,7 +728,6 @@ class Causes extends CI_Controller {
 			echo  '0';
 		}
 	}
-	
 	//Update thanks card
 	public function update_thanks_card()
 	{
@@ -793,19 +736,14 @@ class Causes extends CI_Controller {
 		$cause_id = $_POST['cause_id'];
 		$db_card_id = $_POST['db_card_id'];
 		$data = array(	
-				'messgae' => $message,
+				'message' => $message,
 				'donor_user_id' => $donor_user_id,
 				'cause_id' => $cause_id 
 				);
-							
 		$this->db->where('id', $db_card_id);  
 		$this->db->update('thanks_card', $data); 
-		
 		echo $db_card_id;
-		
 	}
-	
-	
 	//Add Activity log
 	public function add_activity_log()
 	{
@@ -819,7 +757,6 @@ class Causes extends CI_Controller {
 				'description' => $description, 
 				'image' => $act_image_name
 				);
-							
 		$row_id = $this->Causes_model->AddData('activity_log',$data);
 		if ($row_id > 0)
 		{
@@ -830,7 +767,6 @@ class Causes extends CI_Controller {
 			echo  '0';
 		}
 	}
-	
 	//Update Activity log
 	public function update_activity_log()
 	{
@@ -843,64 +779,36 @@ class Causes extends CI_Controller {
 				'description' => $description, 
 				'image' => $act_image_name
 				);
-							
 		$this->db->where('id', $db_actlog_id);  
 		$this->db->update('activity_log', $data); 
-		
 		echo $db_actlog_id;
+	}
+	
+	/////	//certificate name
+	public function certificate_name()
+	{
+		//echo '<pre>'; print_r($_POST);  
+		$id = $_POST['id']; 
+		$certificate_alldata = $this->Causes_model->getRecoId('manage_certificates',$id);
+		//echo '<pre>'; print_r($certificate_alldata);  die;
+		echo json_encode($certificate_alldata); 
 		
 	}
 	
 	
-	
-	
-	
-	/* // load steps template
-	public function steps(){
-		
-		if(!empty($this->session->userdata('logged_in')))
-		{
-			echo $this->session->userdata('cause_id');
-			$header['title']='Cause Creation';
-			$this->load->view('Causes/header',$header);
-			$this->load->view('Causes/causes-steps');
-			$this->load->view('Causes/footer');
-		}
-		else{
-				redirect(site_url().'Causes/login', 'refresh');
-		}
-		
+	//Save activity amount from Update performance page
+	public function save_activity_amount()
+	{
+		$actid = $_POST['actid'];
+		$amount = $_POST['amount'];
+		$data = array(	
+					'act_added_amount' => $amount 
+				);			
+		$this->db->where('act_id', $actid);  				
+		$cause_id = $this->db->update('cause_stage_activity',$data);
+		//echo $this->db->last_query(); die;
+		echo '1';
+		exit;
 	}
-	// load stages template
-	public function stages(){
-		
-		if(!empty($this->session->userdata('logged_in')))
-		{
-			$cause_id = $this->session->userdata('cause_id');
-			$header['title']='Cause Creation';
-			$this->load->view('Causes/header',$header);
-			$this->load->view('Causes/causes-stages');
-			$this->load->view('Causes/footer');
-		}
-		else{
-				redirect(site_url().'Causes/login', 'refresh');
-		}
-		
-	}
-	
-	// load stages template
-	public function project(){
-		
-		if(!empty($this->session->userdata('logged_in')))
-		{
-			$header['title']='This is how your project will look';
-			$this->load->view('Causes/header',$header);
-			$this->load->view('Causes/causes-project');
-			$this->load->view('Causes/footer');
-		}
-		else{
-				redirect(site_url().'Causes/login', 'refresh');
-		}
-		
-	} */
+	 
 }

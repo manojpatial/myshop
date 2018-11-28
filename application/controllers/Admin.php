@@ -32,12 +32,12 @@ class Admin extends CI_Controller {
 	 }
 	 
 	public function index() { 
-      if(empty($this->session->userdata('logged_in')))
+		if(!empty($this->session->userdata('logged_in') ) && $this->session->userdata('logged_in')['role'] == 'admin')
 		{
-			$this->load->view('admin/admin_login');
+			redirect('admin/dashboard');
 		}
 		else{
-			redirect('admin/dashboard');
+			$this->load->view('admin/admin_login');
 		}
 	}
 	
@@ -51,9 +51,10 @@ class Admin extends CI_Controller {
 			$result = $this->Admin_model->adminLogin($email, $passWord);
 			if($result) {
 				$data = array(
-				'id' => $result->id,
-				'name' => $result->name,
-				'email' => $result->email,
+					'id' => $result->id,
+					'name' => $result->name,
+					'role' => $result->role,
+					'email' => $result->email,
 				);
 				
 				$this->session->set_userdata('logged_in',$data);
@@ -76,8 +77,8 @@ class Admin extends CI_Controller {
 		
   /***--- Loading  dashboard for admin ***/
 	public function dashboard(){ 
-	
-	if(!empty($this->session->userdata('logged_in')))
+	//echo '<pre>'; print_r($this->session->userdata('logged_in')['role']);
+	if(!empty($this->session->userdata('logged_in') ) && $this->session->userdata('logged_in')['role'] == 'admin')
 		{
 			$adminData = $this->session->userdata('logged_in');
 			$adminid = $adminData['id'];
@@ -116,7 +117,7 @@ class Admin extends CI_Controller {
 	/***--- ---------project page-------------- ***/
     public function project()
 	{       
-		if(!empty($this->session->userdata('logged_in')))
+		if(!empty($this->session->userdata('logged_in') ) && $this->session->userdata('logged_in')['role'] == 'admin')
 		{
 		   $project_id = $this->uri->segment(3);
 		   $project_data= $this->Admin_model->getprojectuserData($project_id); 
@@ -301,7 +302,7 @@ class Admin extends CI_Controller {
  /***--- ---------company page-------------***/
     public function company()
 	{       
-		if(!empty($this->session->userdata('logged_in')))
+		if(!empty($this->session->userdata('logged_in') ) && $this->session->userdata('logged_in')['role'] == 'admin')
 		{
 		   $user_id = $this->uri->segment(3);
 		   //echo '<pre>' ; print_r($user_id); 	echo '</pre>';
@@ -322,7 +323,7 @@ class Admin extends CI_Controller {
 	/***------------institution page---------**/
 	public function institution()
 	{       
-		if(!empty($this->session->userdata('logged_in')))
+		if(!empty($this->session->userdata('logged_in') ) && $this->session->userdata('logged_in')['role'] == 'admin')
 		{
 		   $user_id = $this->uri->segment(3);
 		   $institute_data= $this->Admin_model->getinstitution_dataid($user_id); 
@@ -355,7 +356,7 @@ class Admin extends CI_Controller {
 	/***-----------causes page-------------***/
 	public function causes()
 	{       
-		if(!empty($this->session->userdata('logged_in')))
+		if(!empty($this->session->userdata('logged_in') ) && $this->session->userdata('logged_in')['role'] == 'admin')
 		{
 		  $cause_id = $this->uri->segment(3);
 		  $cause_data = $this->Admin_model->getCauseData($cause_id);
@@ -370,6 +371,8 @@ class Admin extends CI_Controller {
 		  $data['activity_data'] = $activity_data;
 		  $data['certificates_data'] = $certificates_data;
 		  $data['services_data'] = $services_data;
+		  $certificate_name = $this->Admin_model->getReco('manage_certificates');
+		  $data['certificate_name']=$certificate_name;
 		  $header['title']='';
 		  $this->load->view('admin/admin_header',$header);
 		  $this->load->view('admin/view_causes',$data);
@@ -776,7 +779,7 @@ class Admin extends CI_Controller {
 		$data['cause_donors'] = $cause_donors;
 		$data['thanks_card'] = $thanks_card;
 	
-		$response = $this->load->view('Causes/causes-project',$data,TRUE);
+		$response = $this->load->view('admin/causes-project',$data,TRUE);
 		echo $response; 
 	}
 	
@@ -861,7 +864,7 @@ class Admin extends CI_Controller {
 		$donor_user_id = $_POST['donor_user_id'];
 		$cause_id = $_POST['cause_id'];
 		$data = array(	
-				'messgae' => $message,
+				'message' => $message,
 				'donor_user_id' => $donor_user_id,
 				'cause_id' => $cause_id 
 				);
@@ -885,7 +888,7 @@ class Admin extends CI_Controller {
 		$cause_id = $_POST['cause_id'];
 		$db_card_id = $_POST['db_card_id'];
 		$data = array(	
-				'messgae' => $message,
+				'message' => $message,
 				'donor_user_id' => $donor_user_id,
 				'cause_id' => $cause_id 
 				);
@@ -944,9 +947,122 @@ class Admin extends CI_Controller {
 	}
 	
 	
+		/***-----------manage certificate page-------------***/
+	public function manage_certificate()
+	{       
+		if(!empty($this->session->userdata('logged_in') ) && $this->session->userdata('logged_in')['role'] == 'admin')
+		{
+		 $certificate_data = $this->Admin_model->getReco('manage_certificates'); 
+		 $data['certificate_data'] = $certificate_data;
+			//echo '<pre>'; print_r($certificate_data); echo '</pre>'; 
+		 $header['title']='';
+		 $this->load->view('admin/admin_header',$header);
+		 $this->load->view('admin/manage_certificate',$data);
+		 $this->load->view('admin/admin_footer');
+		   }
+		  else{
+				redirect(site_url().'admin/index', 'refresh');
+		   }
+	}
+
 	
-	 
 	
-			 
+	
+	/*********------ add -certificate ---------**********/
+	public function add_certificate(){  
+		if(!empty($this->session->userdata('logged_in') ) && $this->session->userdata('logged_in')['role'] == 'admin')
+		{
+		   $user_id = $this->uri->segment(3);
+		   if ($this->input->server('REQUEST_METHOD') === 'POST') {
+			$data = array(
+							 
+					'certificate_name'=>$this->input->post('certificate_name'),
+					'benefits'=>$this->input->post('benefits'),
+					'restrictions'=>$this->input->post('restrictions'),
+							
+						 );	 
+	       $AddData = $this->Admin_model->AddData('manage_certificates',$data);
+		   $data['message_success'] = TRUE;
+		   $this->session->set_flashdata('message_success', 'Added data succesfully');
+		   }
+		   $header['title']='certificate';
+		   $this->load->view('admin/admin_header',$header);
+		   $this->load->view('admin/add_certificate');
+		   $this->load->view('admin/admin_footer');
+		  }
+		   else{
+		  redirect(site_url().'admin/index', 'refresh');
+		  }
+	}	
+	
+	/*********------ add -certificate ---------**********/
+	public function edit_certificate(){  
+		if(!empty($this->session->userdata('logged_in') ) && $this->session->userdata('logged_in')['role'] == 'admin')
+		{
+		  $id = $this->uri->segment(3);
+		   if ($this->input->server('REQUEST_METHOD') === 'POST') {
+			$data = array(
+							 
+					'certificate_name'=>$this->input->post('certificate_name'),
+					'benefits'=>$this->input->post('benefits'),
+					'restrictions'=>$this->input->post('restrictions'),
+							
+						 );	 
+	       $AddData = $this->Admin_model->updateData('manage_certificates',$data,$id);
+		   
+		   $data['message_success'] = TRUE;
+		   $this->session->set_flashdata('edit_message_success', 'Update data succesfully');
+		   }
+		   $id = $this->uri->segment(3);
+		   $data['certificate']=$this->Admin_model->getRecoId('manage_certificates',$id);
+		  // echo '<pre>'; print_r($data); echo '</pre>';
+		   $header['title']='certificate';
+		   $this->load->view('admin/admin_header',$header);
+		   $this->load->view('admin/edit_certificate',$data);
+		   $this->load->view('admin/admin_footer');
+		  }
+		   else{
+		  redirect(site_url().'admin/index', 'refresh');
+		  }
+	}	
+	
+	public function del_certificate($id,$tbl,$page){
+		$i= $page;
+		//exit();
+		$Deldata = $this->Admin_model->deletecertificate($tbl,"id",$id);
+		if($Deldata) {
+
+			$data['message_success'] = TRUE;
+			$this->session->set_flashdata('delete_message_success', 'Data deleted successfully..!!');
+			redirect('admin/'.$i);
+		}
+	}
+	
+	
+	//certificate name
+	public function certificate_name()
+	{
+		//echo '<pre>'; print_r($_POST);  
+		$id = $_POST['id']; 
+		$certificate_alldata = $this->Admin_model->getRecoId('manage_certificates',$id);
+		//echo '<pre>'; print_r($certificate_alldata);  die;
+		echo json_encode($certificate_alldata); 
+		
+	}
+	
+	//Save activity amount from Update performance page
+	public function save_activity_amount()
+	{
+		$actid = $_POST['actid'];
+		$amount = $_POST['amount'];
+		$data = array(	
+					'act_added_amount' => $amount 
+				);			
+		$this->db->where('act_id', $actid);  				
+		$cause_id = $this->db->update('cause_stage_activity',$data);
+		//echo $this->db->last_query(); die;
+		echo '1';
+		exit;
+	}
 	
 }

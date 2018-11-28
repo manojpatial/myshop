@@ -71,9 +71,10 @@
 								<label class='col-sm-4'><?php echo $this->lang->line('another_activity'); ?></label>
 								<div class='col-sm-8'>
 									<input value='<?php echo $cause_data->another_activity; ?>' id='another_activity' name='another_activity' type='text' placeholder='Name of this certificate' class='form-control' />
-								</div>
+								</div> 
 							</div>
 							<div class='button-group text-right'>
+								<a href="<?php echo base_url(); ?>admin/dashboard" class="btn creat-btn">Back to panel</a>
 								<button id="info_next" type='button' class='btn create-btn'><?php echo $this->lang->line('next_button'); ?></button>
 							</div>
 						</div>
@@ -86,11 +87,10 @@
 									<div class='col-sm-8'>
 										<select name='certificates[]' id='certificates' class='select_certificate form-control'>
 											<option value="">Select your certificate from this list</option>
-											<option value="1" <?php echo (isset($certificates_data[$i]['cert_name']) && $certificates_data[$i]['cert_name'] =='Certificate 1') ?  'selected' : ''; ?> >Certificate 1</option>
-											<option value="2" <?php echo (isset($certificates_data[$i]['cert_name']) && $certificates_data[$i]['cert_name'] =='Certificate 2') ?  'selected' : ''; ?>>Certificate 2</option>
-											<option value="3" <?php echo (isset($certificates_data[$i]['cert_name']) && $certificates_data[$i]['cert_name'] =='Certificate 3') ?  'selected' : ''; ?>>Certificate 3</option>
-											<option value="4" <?php echo (isset($certificates_data[$i]['cert_name']) && $certificates_data[$i]['cert_name'] =='Certificate 4') ?  'selected' : ''; ?>>Certificate 4</option>
-											<option value="other" <?php echo (isset($certificates_data[$i]['cert_name']) && $certificates_data[$i]['cert_name'] =='Other') ?  'selected' : ''; ?>>Other</option>
+											<?php foreach($certificate_name as $certificate){?>
+											<option value="<?php echo $certificate['id'];?>"><?php echo $certificate['certificate_name'];?></option>
+											<?php } ?>
+											 
 										</select>
 									</div>
 								</div>
@@ -232,6 +232,9 @@
 									<div class='button-group text-center'>
 										<input type="hidden" id="user_id" value="<?php echo $cause_data->user_id; ?>">
 										<input type="hidden" name="causePic" id="causePic" value="<?php echo $cause_data->photo;?>" >
+										
+										<a href="<?php echo base_url(); ?>admin/dashboard" class="btn creat-btn">Back to panel</a>
+										
 										<button id='infoprev' type='button' class='btn create-btn'><?php echo $this->lang->line('previous_button'); ?></button>
 										<button id='editinfonext' type='button' class='btn create-btn'><?php echo $this->lang->line('next_button'); ?></button>
 									</div>
@@ -319,6 +322,7 @@
 									</div>
 									<div class="button-group text-center">
 										<input type="hidden" class="db-stg-id" value="<?php echo $stage['stage_id']; ?>">
+										<a href="<?php echo base_url(); ?>admin/dashboard" class="btn creat-btn">Back to panel</a>
 										<?php if($i > 1) {?>
 										<button type="button" id="prev-stage-<?php echo $i-1; ?>" class="prev btn create-btn"><?php echo $this->lang->line('previous_stage'); ?></button>
 										<?php 
@@ -544,7 +548,7 @@
 									<div id="activities-ids"></div>
 									<div class="button-group text-center">
 										<input type="hidden" class="db-stg-id" value="">
-										
+										<a href="<?php echo base_url(); ?>admin/dashboard" class="btn creat-btn">Back to panel</a>
 										<button id=""  type="button" class="prev btn create-btn"><?php echo $this->lang->line('previous_stage'); ?></button>
 										<button id="next-stage-2" type="button" class="next btn create-btn add-stage-btn"><?php echo $this->lang->line('save_stage'); ?></button>
 										<button id="finish-stages" type="button" class="btn create-btn"><?php echo $this->lang->line('finish_stage_button'); ?></button>

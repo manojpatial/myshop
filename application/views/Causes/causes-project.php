@@ -1,12 +1,13 @@
 <?php 
-//echo '<pre>'; print_r($thanks_card); echo '</pre>';
+//echo '<pre>'; print_r($cause_data); echo '</pre>';
 //echo '<pre>'; print_r($activity_data); echo '</pre>';
 if(!empty($stage_data) && !empty($cause_data)){ ?>
+<link href="<?php echo base_url();?>/assets/css/circle.css" rel="stylesheet" type="text/css">
 <div id="project-page" class='container-fluid' style="background:linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('<?php echo base_url();?>assets/uploads/cause-picture/<?php echo $cause_data->photo; ?>') no-repeat;">
 	<div class='row com50' id="stage-listing">
 		<div id="thanks-card" class='col-lg-4 col-md-3'>
 			<?php if($cause_data->status == 3){ 
-			if(!empty($thanks_card))
+			if(!empty($thanks_card)) 
 			{ ?>
 				<ul id="thanks-card-ul" class="simp-btn">
 			<?php
@@ -31,7 +32,7 @@ if(!empty($stage_data) && !empty($cause_data)){ ?>
 							<!--<div class="popupCloseButton">X</div>-->
 							<span><?php echo $this->lang->line('thanks_card'); ?></span>
 							<div class="form-row">
-								<div class="col-sm-12"><textarea class="form-control"  id="message"><?php echo $thanks['messgae'];?></textarea></div>
+								<div class="col-sm-12"><textarea class="form-control"  id="message"><?php echo $thanks['message'];?></textarea></div>
 							</div>
 							<div class="form-row">
 								<label class="col-sm-12 text-left"><?php echo $this->lang->line('only_visible'); ?></label>
@@ -289,19 +290,32 @@ if(!empty($stage_data) && !empty($cause_data)){ ?>
 					$cost += $act['act_pesimistic_scenario'];
 					$cost += $act['act_expected_scenario'];
 					$cost += $act['act_best_scenario'];
+					$act_amount = $act['act_added_amount'];
+					$act_cost = $cost;
+					$percentage = ceil(($act_amount/$act_cost)*100);
 					?>
 					<div class='row'>
 						<div class='col-md-8'>
 							<ul class="timeline timenew">
 								<li>
-									<div class="timeline-badge"><i class="fa  <?php echo $act['act_icon'];?>" aria-hidden="true"></i></div>
+									
+									<div class="timeline-badge c100 p<?php echo $percentage; ?> big">
+									<i class="fa  <?php echo $act['act_icon'];?>" aria-hidden="true"></i>
+									<div class="slice">
+										<div class="bar"></div>
+										<div class="fill"></div>
+									</div>
+									</div>
 									<div class="timeline-panel">
 										<div class="timeline-heading">
 										  <h4 class="timeline-title"><?php echo $act['act_name'];?></h4>
 										</div>
 									</div>
 									<div class='timeline-right'><h4 class="timeline-title"><?php echo $act['act_description'];?></h4></div>
-								  <p class='amt'><?php echo number_format((float)$cost, 2, '.', '').' USD'; ?></p>
+									
+								  <p class='amt'><?php if($cause_data->status == 3){ ?>
+									<input type="text" name="activity_amt" id="activity_amt_<?php echo $act['act_id'];?>" class="added_act_amt" value="<?php echo $act['act_added_amount'];?>"> USD / 
+									<?php } ?><?php echo number_format((float)$cost, 2, '.', '').' USD'; ?></p>
 								</li>
 							</ul>
 						</div>
@@ -383,8 +397,18 @@ if(!empty($stage_data) && !empty($cause_data)){ ?>
 	<div class='row com50'>
 		<div class='col-lg-4 col-md-3'></div>
 		<div class='col-lg-4 col-md-6'></div>
-		<div class='col-lg-4 col-md-3'><button id="finish-cause-<?php echo $cause_data->id;?>" type="button" class="finish-cause btn creat-btn">
-		<?php echo $this->lang->line('finish_cause_button'); ?></button></div>
+		<div class='col-lg-4 col-md-3'>
+			<?php if($cause_data->status == 0) { ?>
+			<button id="finish-cause-<?php echo $cause_data->id;?>" type="button" class="finish-cause btn creat-btn">
+			<?php echo $this->lang->line('finish_cause_button'); ?></button>
+			<?php } else{ ?>
+				
+			<a href="<?php echo base_url(); ?>/Causes/mycause" class="btn creat-btn">
+			<?php echo $this->lang->line('finish_cause_button'); ?></a>
+			<?php 
+			}
+			?>
+		</div>
 	</div>
 </div>
 <?php } else{ ?>

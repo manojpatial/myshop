@@ -130,7 +130,7 @@ class Coworker extends CI_Controller {
 			
 			$data = array();
 			$header = array();
-			$header['title']='voting';
+			$header['title']= $this->lang->line('voting_header_title');;
 			$data['causesData']=$causesData;
 			$data['projectData']=$projectData;
 			$this->load->view('Coworker/coworker_header',$header);
@@ -162,7 +162,7 @@ class Coworker extends CI_Controller {
 					'user_id' => $user_id,
 					'vote' => 1,
 				);
-				//$insert = $this->Coworker_model->AddData('voting',$data);
+			$insert = $this->Coworker_model->AddData('voting',$data);
 			}
 			else if($votingType == 2){
 				if(is_array($vote) && !empty($vote))
@@ -174,7 +174,7 @@ class Coworker extends CI_Controller {
 							'user_id' => $user_id,
 							'vote' => $k,
 						);
-						//$insert = $this->Coworker_model->AddData('voting',$data);
+		  $insert = $this->Coworker_model->AddData('voting',$data);
 					}
 				}
 			}
@@ -201,7 +201,7 @@ class Coworker extends CI_Controller {
 			
 			$data = array();
 			$header = array();
-			$header['title']='Voting Result';
+			$header['title']= $this->lang->line('view_result_header_title');
 			$data['resultData']=$resultData;
 			$data['donation_type']=$donation_type;
 
@@ -215,7 +215,32 @@ class Coworker extends CI_Controller {
 		
 	}
 	
-	 
+	 //Donaion tracking page 
+	public function donation_tracking()
+	{
+		$cause_id = $this->uri->segment(3);
+		$cause_data = $this->Coworker_model->getCauseData($cause_id); 
+		$cause_userdata = $this->Coworker_model->getCauseUserData($cause_id); 
+		$stage_data = $this->Coworker_model->getStageData($cause_id); 
+		$activity_data = $this->Coworker_model->getActivityData($cause_id); 
+		$cert_data = $this->Coworker_model->getAllCertificateData($cause_id); 
+		$serv_data = $this->Coworker_model->getAllServiceData($cause_id); 
+		$cause_donors = $this->Coworker_model->getAllCauseDonors($cause_id); 
+		$thanks_card = $this->Coworker_model->getAllThanksCard($cause_id); 
+		$data['cause_data'] = $cause_data;
+		$data['cause_userdata'] = $cause_userdata;
+		$data['stage_data'] =$stage_data;
+		$data['activity_data'] = $activity_data;
+		$data['cert_data'] = $cert_data;
+		$data['serv_data'] = $serv_data;
+		$data['cause_donors'] = $cause_donors;
+		$data['thanks_card'] = $thanks_card;
+		$header['title'] = $this->lang->line('donation_track');
+		
+		$this->load->view('Coworker/coworker_header',$header);
+		$this->load->view('Coworker/donation-track', $data);
+		$this->load->view('Coworker/coworker_footer');
+	}
 	
 	
 	

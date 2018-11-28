@@ -9,11 +9,20 @@
 <link href="<?php echo base_url();?>assets/css/bootstrap.css" rel="stylesheet" type="text/css">
 <link href="<?php echo base_url();?>assets/css/style.css" rel="stylesheet" type="text/css">
 <link href="<?php echo base_url();?>assets/css/coworker.css" rel="stylesheet" type="text/css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("#logoutid").click(function(){
+        $("p").toggle();
+    });
+});
+</script>
 </head>
 
 <body>
 <!--==========================First page start here!=====================-->
 <input type="hidden" value="<?php echo base_url(); ?>" id="base">
+<input type="hidden" id="current_language" value="<?php echo $this->lang->line('language_key'); ?>">
 <section class='causes-create'> 
 	<div class='head-bar'><!--=====Head Bar!================-->
 		<div class='container-fluid'>
@@ -29,7 +38,7 @@
 				<div class='col-sm-6'>
 					<h1><?php echo $title; ?></h1>
 				</div>
-				<div class='col-sm-3'>
+				<div class='col-sm-1'>
 				<div class="inline-item">
 				<select id="Dropdownlanguage">
     
@@ -38,6 +47,8 @@
    <option value="<?php echo base_url(); ?>LangSwitch/switchLanguage/chinese" <?php echo $this->lang->line('language_key') == "Chinese" ? "selected" : "";  ?>>Chinese</option>
    </select>
    </div>
+   </div>
+				<div class='col-sm-2'>
 				<?php $loginData = $this->session->userdata('logged_in');
 						if($loginData !='')
 						{ 
@@ -45,11 +56,13 @@
 							$loginlogoimage = $loginData['image'];
 						?>
 					<div class='avt-sec'>
-						<span><?php echo $loginUsername ;?></span>
+						<span id="logoutid"><?php echo $loginUsername ;?></span>
 						<img src="<?php echo base_url();?>assets/images/mptek.jpg" alt="Avatar" class="avatar">
 						
 					</div>
-						<?}?>
+						<?php }?>
+						 
+						<p style="display:none; font-size:14px;" ><a href="<?php echo base_url();?>coworker/logout" style="color:white;"><?php echo $this->lang->line('logout'); ?></a></p>
 						
 				</div>
 			</div>

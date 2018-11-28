@@ -157,6 +157,7 @@ $lang["finish_thanks_card"] = "Finish";
  
 /***----corporate  projects page popup variable---***/
  $lang["project_page_header_title"] = "You can create a project adding causes that your company and co-workers may find interesting";
+ $lang["selected_causes_error_msg"] = "<strong>Error! </strong> Please select minimum 3 causes for create project";
  $lang["all"] = "All";
  $lang["filter"] = "Filter";
  $lang["selected"] = "Selected";
@@ -202,11 +203,25 @@ $lang["finish_thanks_card"] = "Finish";
  /******------------project creation Visualization tab variable-------------*******/ 
  $lang["voting_ends_at"] = "Voting Ends at";
  $lang["the"] = "the";
- $lang["donation_amount"] = "Donation Amount:$";
+ $lang["donation_amount"] = "Donation Amount: $";
  $lang["visible"] = "(Visible)";
  
  /************----------coworker variable------------------*************/
   $lang["co-workers"] = "Co-workers";
+  
  /************-------coworker crc project variable----*************/
- $lang["view_result_button"]='View Result';
+  $lang["view_result_button"]='View Result';
   $lang["vote_now_button"]='Vote now!';
+  
+ /************-------coworker voting  page popup  variable----*************/
+  $lang["voting_header_title"]='voting';
+  $lang["vote"]='Vote';
+  $lang["thanks_msg"]='Thanks for your vote';
+  $lang["result_available_date_msg"]='Result will be available on';
+  $lang["submit_button"]='Submit';
+  
+  
+ /**********----------coworker view result page variable----------------*************/ 
+  $lang["view_result_header_title"]='Voting Result';
+  $lang["donation_track"]='Donation Tracking';
+  

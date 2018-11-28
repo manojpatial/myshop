@@ -284,6 +284,8 @@ class Corporate extends CI_Controller {
 		{
 			$loginData = $this->session->userdata('logged_in');
 			$user_id = $loginData['id'];
+			$selectid = $this->session->userdata('select_causesid');
+			//echo '<pre>'; print_r($selectid); echo '</pre>';
 			$header['title']=$this->lang->line('project_page_header_title');
 			//$selectcasue =$this->session->userdata('select_causesid');
 			$this->load->view('Corporate/corporate_header',$header);
@@ -337,16 +339,16 @@ class Corporate extends CI_Controller {
 	//////// corp-project-creation
 	public function project_creation()
 	{
-		
 		if(!empty($this->session->userdata('logged_in')))
 		{
 			$popupdata=$this->Corporate_model->getcauseuser_data('causes');     
 	        $data['popup_data'] =$popupdata;
 			$selectid = $this->session->userdata('select_causesid');
-			if(empty($this->session->userdata('select_causesid')))
+			//echo count ($this->session->userdata('select_causesid')); die('hhh');
+			if(count($this->session->userdata('select_causesid')) < 3)
 			{
 				$data['message_error'] = TRUE;
-				$this->session->set_flashdata('message_error', 'Please select a cause for create project.');
+				$this->session->set_flashdata('message_error',$this->lang->line('selected_causes_error_msg'));
 				redirect('Corporate/projects');
 			}
 			else

@@ -31,15 +31,16 @@
 				
 					<h1><?php //echo $this->lang->line('welcome'); ?> <?php echo $title; ?></h1>
 				</div> 
-				<div class='col-sm-3'>
-				<div class="inline-item">
+				<div class='col-sm-1'><div class="inline-item">
 			<select id="Dropdownlanguage">
-   <option value="">Select Language</option>
+   
    <option value="<?php echo base_url(); ?>LangSwitch/switchLanguage/english" <?php echo $this->lang->line('language_key') == "English" ? "selected" : "";  ?>>English</option>
    <option value="<?php echo base_url(); ?>LangSwitch/switchLanguage/spanish" <?php echo $this->lang->line('language_key') == "Spanish" ? "selected" : "";  ?>>Español</option>
    <option value="<?php echo base_url(); ?>LangSwitch/switchLanguage/chinese" <?php echo $this->lang->line('language_key') == "Chinese" ? "selected" : "";  ?>>Chinese</option>
    </select>
-   </div>
+   </div></div>
+				<div class='col-sm-2'>
+				
 					<?php $loginData = $this->session->userdata('logged_in');
 						if($loginData !='')
 						{ 

@@ -13,7 +13,11 @@
 						//echo '<pre>'; print_r($cause['status']); echo '</pre>';
 					?>
 						<li class='created-causes'>
-							<a href="<?php echo base_url();?>Causes/edit_cause/<?php echo $cause['id'];?>">
+						<?php if($cause['status'] == 3) { ?>
+							<a href="<?php echo base_url();?>Causes/update_performance/<?php echo $cause['id'];?>">
+						<?php } else { ?>
+						<a href="<?php echo base_url();?>Causes/edit_cause/<?php echo $cause['id'];?>">
+						<?php } ?>
 								<div class='cause-photo'><img src='<?php echo base_url();?>assets/uploads/cause-picture/<?php echo $cause['photo'];?>' /></div>
 								<div class='cause-des'>
 									<h4><?php echo $cause['name'];?></h4>
@@ -28,8 +32,30 @@
 								<h4><?php echo $this->lang->line('update_performance'); ?></h4>
 								<?php } ?>
 							</div>
+							<div id="pop_approve">
+							<?php if($cause['status'] == 3 && $cause['pop_approve'] == 0){ ?>
+								<input type="hidden" class="approve_pop" id="cause_pop_<?php echo $cause['id'];?>" value="<?php echo $cause['id'];?>" />
+							<?php } ?>
+							</div>
 						</li>
+						<?php if($cause['status'] == 3 && $cause['pop_approve'] == 0){ ?>
+						<!---popup code for Approved Cause--->
+						<div id="approve_pop_<?php echo $cause['id']; ?>" class="popup_appr">
+							<span class="helper"></span>
+							<div class="popup_body">
+								<!--<div class="popupCloseButton">X</div>-->
+								Cause: <?php echo $cause['name']; ?><br><br>
+								CLYC.me will be looking for donations now! <br><br>Every time you recieve a donation you must update the information <br><br>within the Cause and upload pictures of the performance to keep <br><br>your donors informed and happy!<br><br>
+								<div class='pop_buttons'>
+								
+								<input type="hidden" value="<?php echo $cause['id']; ?>" id="appr_cause_id">
+								<button id="" type="button" class="approve_cause btn create-btn">Got It!</button>
+								</div>
+							</div>
+						</div>
 					<?php
+					}
+					
 					}
 					?>
 					<li><a href='<?php echo base_url('Causes/causescreation');?>'><i class="fa fa-plus" aria-hidden="true"></i> <?php echo $this->lang->line('my_cause_create'); ?></a></li>
@@ -47,6 +73,7 @@
 							</div>
 						</div>
 					</div>
+					
 				<?php
 				}
 				else{

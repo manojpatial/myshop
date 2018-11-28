@@ -253,7 +253,7 @@
 		   <?php }?>
 	
 		</ul>
-		<div class="row text-center">
+		<div class="row text-center" style="margin-top:20px;">
 		<div class="col-sm-12"><a href='JavaScript:Void(0);' id="popup_id" class="btn create-btn"><?php echo $this->lang->line('finish_stage_button'); ?></a></div>
 		</div>
 		

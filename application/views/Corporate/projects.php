@@ -12,7 +12,7 @@
 		<?php	
 			$selectid= $this->session->userdata('select_causesid');
 			if($this->session->flashdata('message_error'))  { 
-				echo '<div class="alert alert-danger fade in" style="margin-top:18px;">	<a href=""  onclick="myFunction()" class="close" data-dismiss="alert" aria-label="close" title="close">×</a><strong> Error! </strong>  '. $this->session->flashdata('message_error').'</div>'; 
+				echo '<div class="alert alert-danger fade in" style="margin-top:18px;">	<a href=""  onclick="myFunction()" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>'. $this->session->flashdata('message_error').'</div>'; 
 			} 
 			?>
 			<ul id="allcause-section">

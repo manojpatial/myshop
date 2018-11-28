@@ -11,6 +11,17 @@ class Causes_model extends CI_Model {
 		return 	$AllData;
 		
 	}
+	/////get record by id
+	function getRecoId($tbl,$id){
+	$this->db->select('*');
+	$this->db->from($tbl);
+	$this->db->where('id', $id);
+	$query=$this->db->get();
+	//echo $this->db->last_query(); die;
+	$AllData = $query->result_array();
+		return 	$AllData;
+	
+	}
 	//Get single row data
 	function getRowData($row_id, $col_name, $tbl){
 		$this->db->select('*');
@@ -224,7 +235,6 @@ class Causes_model extends CI_Model {
 		return $insert_id;
 	}
 	function getUserData($user_id, $meta_key) {
-		 
 		$this->db->select('meta_value')->from('usermeta');
 		$this->db->where('meta_key',$meta_key); 
 		$this->db->where('user_id',$user_id); 

@@ -4,7 +4,7 @@ class Admin_model extends CI_Model {
 
 	 //admin_login
 	 function adminLogin($email, $password) {
-        $this->db->select('admin.id,  admin.email, admin.password,admin.name');
+        $this->db->select('admin.id,  admin.email, admin.password,admin.name,admin.role');
 		$this->db->from('admin_users as admin');
 		$this->db->where('admin.email', $email);
 		$this->db->where('admin.password',($password));
@@ -224,14 +224,21 @@ class Admin_model extends CI_Model {
 		
 	}
 	//Get Activity data for Cause by cause id
-	function getActivityData($row_id){
-		$this->db->select('*');
-		$this->db->from('cause_stage_activity');
-		$this->db->where('cause_id',$row_id); 
-		$query = $this->db->get(); 
+	function getActivityData($cause_id){
+		$gry="SELECT * FROM `fed_cause_stage_activity` WHERE `cause_id` = $cause_id";
+		$query	=$this->db->query($gry);
 		//echo $this->db->last_query(); die;
 		if($query->num_rows() > 0) {
 			$AllData = $query->result_array();
+			$data = array();
+			$i = 0;
+			foreach($AllData as $row){
+				$actId = $row['act_id'];
+				$qry="SELECT * FROM `fed_activity_log` WHERE `act_id`= $actId";
+				$querys	=$this->db->query($qry);
+				$AllData[$i]['log_data'] = $querys->result_array();
+				$i++;
+			}
 			return 	$AllData;
 
 		}
@@ -359,6 +366,44 @@ class Admin_model extends CI_Model {
 		}
 		
 	}
+	
+	///////// get reco by table
+	function getReco($tbl){
+	
+	$this->db->select('*');
+	$this->db->from($tbl);
+	$this->db->order_by('id','desc');
+	$query=$this->db->get();
+	//echo $this->db->last_query(); die;
+	$AllData = $query->result_array();
+		return 	$AllData;
+	
+	}
+	/////get record by id
+	function getRecoId($tbl,$id){
+	$this->db->select('*');
+	$this->db->from($tbl);
+	$this->db->where('id', $id);
+	$query=$this->db->get();
+	//echo $this->db->last_query(); die;
+	$AllData = $query->result_array();
+		return 	$AllData;
+	
+	}
+	////
+	function updateData($tbl, $Fields, $id) {
+		$this->db->where('id', $id);
+		$updData = $this->db->update($tbl, $Fields);
+		//echo $this->db->last_query(); die;
+		return $updData;
+	}
+	function deletecertificate($tbl, $Field, $Id) {
+		$this->db->where($Field, $Id);
+  		$delete = $this->db->delete($tbl);
+		//echo $this->db->last_query(); die;
+		return $delete;
+	}
+	
  }
 
 ?>
